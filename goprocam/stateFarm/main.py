@@ -32,20 +32,13 @@ def take_a_picture(timer_input=0, timelapse_activated = False):
         i = 0
         while i <20: # Take a picture every {timer_input} seconds
             go_pro.take_photo(timer=timer_input)
-            filename = 'timelapse_photo_{}.JPG'.format(i) 
-            go_pro.downloadLastMedia(custom_filename=filename)
-
-            # Move the downloded file to the folder your choice
-            shutil.move('./{}'.format(filename), './images/{}'.format(filename))
             i+=1
     else: # Take only one picture
         go_pro.take_photo(timer=timer_input)
-        filename= 'photo_{}.JPG'.format(donwloaded_picture)
-        go_pro.downloadLastMedia(custom_filename=filename)
-
-        # Move the downloded file to the folder your choice
-        shutil.move('./{}'.format(filename), './images/{}'.format(filename))
         donwloaded_picture += 1
+        
+    # Download all the media and clear the Go Pro SD card
+    download_all_media_to_image_folder()
 
 def take_a_video(duration_input=5):
     global downloaded_video
@@ -60,7 +53,7 @@ def take_a_video(duration_input=5):
     
 
 
-# take_a_picture(3,False)
+take_a_picture(1,True)
 # take_a_video()
 
-download_all_media_to_image_folder()
+# download_all_media_to_image_folder()
