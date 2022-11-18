@@ -4,7 +4,29 @@
 
 from goprocam import GoProCamera, constants
 import shutil
-import asyncio
+import read_sbus_from_GPIO
+import time
+
+SBUS_PIN = 4 #pin where sbus wire is plugged in, BCM numbering
+reader = read_sbus_from_GPIO.SbusReader(SBUS_PIN)
+reader.begin_listen()
+
+#wait until connection is established
+while(not reader.is_connected()):
+    time.sleep(.2)
+#Note that there will be nonsense data for the first 10ms or so of connection
+#until the first packet comes in.
+time.sleep(.1)
+
+# Run the main program
+while 1: 
+    
+     #returns list of length 16, so -1 from channel num to get index
+    channel_data = reader.translate_latest_packet()
+    for i in  channel_data:
+        print(f'{i}')
+
+
 donwloaded_picture = 0 
 downloaded_video = 0
 
